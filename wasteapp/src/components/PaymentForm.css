@@ -1,0 +1,34 @@
+.payment-form {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .payment-form h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .payment-form .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .payment-form button {
+    margin-top: 20px;
+  }
+  
+  /* Responsive design for smaller screens */
+  @media (max-width: 768px) {
+    .payment-form {
+      padding: 10px;
+    }
+  
+    .payment-form h2 {
+      font-size: 1.75rem;
+    }
+  
+    .payment-form button {
+      width: 100%;
+    }
+  }
+  

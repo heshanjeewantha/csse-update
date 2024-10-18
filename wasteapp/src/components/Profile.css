@@ -1,0 +1,35 @@
+/* Center the profile content both horizontally and vertically */
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Full height of the viewport */
+    text-align: center; /* Center the text */
+    background-color: #83f396; /* Optional: Add a background color */
+    padding: 20px; /* Optional: Add padding */
+  }
+  
+  /* Style the profile picture */
+  .profile-picture {
+    border-radius: 50%;
+    width: 150px; /* Set a fixed width for the picture */
+    height: 150px; /* Set a fixed height for the picture */
+    object-fit: cover; /* Ensure the image doesn't distort */
+    margin-bottom: 20px; /* Space below the image */
+  }
+  
+  /* Style the list of user info */
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  li {
+    margin: 10px 0; /* Space between items */
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+  }
+  
