@@ -50,7 +50,6 @@ const AddTrashBin = () => {
             const response = await axios.post('http://localhost:8070/TrashBin/add', trashBinData);
             console.log('Response:', response.data);
             alert('Trash Bin added successfully!');
-            // Reset form after successful submission
             setLocation(null);
             setBinCapacity('');
             setCurrentFillLevel('');

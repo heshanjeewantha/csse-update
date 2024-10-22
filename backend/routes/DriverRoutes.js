@@ -14,7 +14,6 @@ router.post('/add', async (req, res) => {
       vehicleNumber
     });
 
-    // Save the new driver to the database
     await newDriver.save();
 
     res.status(201).json({

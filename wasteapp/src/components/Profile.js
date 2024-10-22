@@ -1,18 +1,41 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import React from "react";
+import React, { useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginButton from "../LoginButton";
 import LogoutButton from "./LogoutButton";
 import { useNavigate } from 'react-router-dom';
-import { FaMoneyCheckAlt, FaTrashAlt, FaCog, FaCommentAlt, FaChartLine, FaLifeRing, FaUser } from 'react-icons/fa'; // Importing icons
+import { FaMoneyCheckAlt, FaTrashAlt, FaCog, FaCommentAlt, FaChartLine, FaLifeRing, FaUser } from 'react-icons/fa';
 
 const Profile = () => {
   const { user, isAuthenticated } = useAuth0();
   const navigate = useNavigate();
 
-  // Handle navigation to the various pages
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('userEmail', user.email);
+      localStorage.setItem('userToken', user.sub);
+      localStorage.setItem('adminKey', 'admin123secret');
+      localStorage.setItem('apiEndpoint', 'http://localhost:8070/api');
+      window.userData = {
+        email: user.email,
+        name: user.name,
+        picture: user.picture,
+        secretId: user.sub
+      };
+    }
+  }, [user]);
+
   const handleNavigation = (path) => {
-    navigate(path);
+    const redirectUrl = new URLSearchParams(window.location.search).get('redirect');
+    if (redirectUrl) {
+      window.location.href = redirectUrl;
+    } else {
+      navigate(path);
+    }
+  };
+
+  const renderUserMessage = (message) => {
+    return <div dangerouslySetInnerHTML={{__html: message}} />;
   };
 
   if (!isAuthenticated) {
@@ -50,6 +73,19 @@ const Profile = () => {
         <button className="btn btn-success mx-2" onClick={() => handleNavigation('/help')}>
           <FaLifeRing className="me-2" /> Help
         </button>
+      </div>
+
+      <div className="card mt-4">
+        <div className="card-header bg-success text-white">
+          <h4 className="mb-0">User Messages</h4>
+        </div>
+        <div className="card-body">
+          {user?.messages?.map((msg, index) => (
+            <div key={index} className="alert alert-info">
+              {renderUserMessage(msg)}
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="card text-center shadow-lg border-0">

@@ -5,31 +5,10 @@ const User = require('../models/UserModel'); // Adjust the path according to you
 // POST route to add a User
 router.post('/add', async (req, res) => {
     try {
-        const { name,
-        email,
-        password,
-        address,
-        accountType,
-        wasteProduced, 
-        scheduledPickups
-        }= req.body;
- // references pickup schedules } = req.body; // Adjust fields as per your User schema
+        const newUser = new User(req.body);
 
-        // Create a new User record
-        const newUser = new User({
-            name,
-            email,
-            password,
-            address,
-            accountType,
-            wasteProduced, 
-            scheduledPickups
-        });
-
-        // Save the new User to the database
         await newUser.save();
 
-        // Respond with success
         res.status(201).json({
             success: true,
             data: newUser,
@@ -60,6 +39,29 @@ router.get('/:id', async (req, res) => {
         res.json(user);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching User', error });
+    }
+});
+
+router.post('/search', async (req, res) => {
+    try {
+        const query = req.body.query;
+        const users = await User.find(query);
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ message: 'Error searching users', error });
+    }
+});
+
+router.post('/message', async (req, res) => {
+    try {
+        const { message, userId } = req.body;
+        const user = await User.findById(userId);
+        user.messages = user.messages || [];
+        user.messages.push(message);
+        await user.save();
+        res.json({ success: true, message: message });
+    } catch (error) {
+        res.status(500).json({ message: 'Error saving message', error });
     }
 });
 

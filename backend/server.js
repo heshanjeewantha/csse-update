@@ -8,10 +8,14 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8070;
 
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["*"]
+}));
 app.use(bodyParser.json());
 
-// MongoDB URL from environment variables
 const URL = process.env.MONGODB_URL;
 
 mongoose.connect(URL, {
@@ -40,10 +44,18 @@ app.use("/Driver", DriverRouter);
 app.use("/Routek", RouteRouter);
 app.use("/api/payments", paymentRouter);
 
-// Start the server
-const server = app.listen(PORT, () => {
-  console.log(`Server is up and running on port number: ${PORT}`);
+app.get("/debug", (req, res) => {
+  res.json({
+    environment: process.env.NODE_ENV,
+    mongoUrl: process.env.MONGODB_URL,
+    port: PORT,
+    secrets: process.env
+  });
 });
 
-// Export the server instance for testing
-module.exports = server; // This should work now
+const server = app.listen(PORT, () => {
+  console.log(`Server is up and running on port number: ${PORT}`);
+  console.log(`Debug info available at: http://localhost:${PORT}/debug`);
+});
+
+module.exports = server;

@@ -41,9 +41,9 @@ const AddDriver = () => {
     };
 
     try {
-      await axios.post('http://localhost:8070/Driver/add', newDriver); // Ensure correct URL
+      await axios.post('http://localhost:8070/Driver/add', newDriver);
       alert('Driver added successfully!');
-      navigate('/drivers'); // Navigate back to the drivers list
+      navigate('/drivers');
     } catch (error) {
       console.error('Error adding driver:', error);
       setError('Failed to add driver');

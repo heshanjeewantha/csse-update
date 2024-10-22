@@ -13,6 +13,20 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.get("/admin", async (req, res) => {
+  try {
+    const payments = await UserPayment.find();
+    const totalRevenue = payments.reduce((sum, p) => sum + p.paymentAmount, 0);
+    res.status(200).json({ 
+      totalPayments: payments.length, 
+      totalRevenue, 
+      allPayments: payments 
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Get all payments
 router.get("/", async (req, res) => {
   try {
@@ -49,6 +63,15 @@ router.get("/:id", async (req, res) => {
     const payment = await UserPayment.findById(req.params.id);
     if (!payment) return res.status(404).json({ message: "Payment not found." });
     res.status(200).json(payment);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.get("/user/:userId", async (req, res) => {
+  try {
+    const payments = await UserPayment.find();
+    res.status(200).json(payments);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
