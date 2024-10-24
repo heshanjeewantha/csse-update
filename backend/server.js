@@ -35,6 +35,8 @@ const UserRouter = require("./routes/UserRoutes.js");
 const DriverRouter = require("./routes/DriverRoutes.js");
 const RouteRouter = require("./routes/RouteRoutes.js");
 const paymentRouter = require("./routes/paymentroutes.js");
+const AuthRouter = require("./routes/AuthRoutes.js");
+const FileRouter = require("./routes/FileRoutes.js");
 
 // Use routes
 app.use("/TrashBin", TrashBinRouter);
@@ -43,6 +45,8 @@ app.use("/Users", UserRouter);
 app.use("/Driver", DriverRouter);
 app.use("/Routek", RouteRouter);
 app.use("/api/payments", paymentRouter);
+app.use("/auth", AuthRouter);
+app.use("/files", FileRouter);
 
 app.get("/debug", (req, res) => {
   res.json({
